@@ -1,15 +1,18 @@
 # BUILD.bazel
+load("@rules_python//python:defs.bzl", "py_binary")
+
 py_binary(
     name = "generate_java_code",
     srcs = ["generate_java_code.py"],
-    deps = [],
+    deps = ["@pypi//pytzdata:pkg"],
 )
 
 genrule(
     name = "generate_java_code_rule",
-    srcs = [":generate_java_code"],
+    srcs = [],
+    tools = [":generate_java_code"],
     outs = ["GeneratedClass.java"],
-    cmd = "$(locations :generate_java_code) $@",
+    cmd = "$(location :generate_java_code) $(OUTS)",
 )
 
 java_library(
