@@ -1,0 +1,25 @@
+# BUILD.bazel
+
+genrule(
+    name = "generate_java_code",
+    srcs = ["generate_java_code.py"],
+    outs = ["GeneratedClass.java"],
+    cmd = "$(execpath generate_java_code.py) $@",
+)
+
+java_library(
+    name = "my_generated_java_lib",
+    srcs = ["GeneratedClass.java"],
+    deps = [
+        # other dependencies
+    ],
+)
+
+java_binary(
+    name = "my_java_bin",
+    srcs = ["src/main/java/com/example/HelloWorld.java"],
+    main_class = "com.example.HelloWorld",
+    deps = [
+        ":my_generated_java_lib"
+    ]
+)
