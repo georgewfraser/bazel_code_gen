@@ -1,10 +1,15 @@
 # BUILD.bazel
-
-genrule(
+py_binary(
     name = "generate_java_code",
     srcs = ["generate_java_code.py"],
+    deps = [],
+)
+
+genrule(
+    name = "generate_java_code_rule",
+    srcs = [":generate_java_code"],
     outs = ["GeneratedClass.java"],
-    cmd = "$(execpath generate_java_code.py) $@",
+    cmd = "$(locations :generate_java_code) $@",
 )
 
 java_library(
